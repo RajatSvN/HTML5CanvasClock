@@ -1,0 +1,91 @@
+<html>
+<head><title>Clock Face Challenge</title>
+<style>
+	#clockCanvas{
+
+ 		border : solid 1px grey;
+        
+	}
+</style>
+</head>
+<body>
+<!--Making a Canvas-->
+<center><canvas id="clockCanvas" height="600" width="600"></canvas></center>
+<script type="text/javascript">
+	// Function to execute the given code every second for the clock
+	window.setInterval(function(){
+	var clockCanvas = document.getElementById("clockCanvas");
+	var context = clockCanvas.getContext("2d");
+
+	// Making a black Circle
+	context.fillStyle = "black";
+	context.beginPath();
+	context.arc(300,300,200,0,2*Math.PI);
+	context.fill();
+	context.stroke();
+     
+    //Making a small white circle at the center of the clock/black circle 
+	context.fillStyle = "white";
+	context.beginPath();
+	context.arc(300,300,10,0,2*Math.PI)
+	context.fill();
+	context.beginPath();
+	context.stroke();
+
+	context.beginPath();
+	context.fillStyle = "white";
+	context.font = "25px Arial";
+	// Setting up 1,2,3...12 on clock circle by using basic maths of sines and cosines
+	context.fillText("12",285,122);
+	context.fillText("6",293,493);
+	context.fillText("3",483,306);
+	context.fillText("9",105,303);
+	context.fillText("1",300+176*Math.cos(Math.PI/3),300-176*Math.sin(Math.PI/3));
+	context.fillText("2",300+176*Math.cos(Math.PI/6),300-176*Math.sin(Math.PI/6));
+	context.fillText("10",300-176*Math.cos(Math.PI/6)-14,300-176*Math.sin(Math.PI/6));
+	context.fillText("11",300-176*Math.cos(Math.PI/3)-10,300-176*Math.sin(Math.PI/3));
+	context.fillText("4",300+176*Math.cos(Math.PI/6),300+176*Math.sin(Math.PI/6)+14);
+    context.fillText("5",300+176*Math.cos(Math.PI/3),300+176*Math.sin(Math.PI/3)+14);
+	context.fillText("7",300-176*Math.cos(Math.PI/3)-10,300+176*Math.sin(Math.PI/3)+16);
+	context.fillText("8",300-176*Math.cos(Math.PI/6)-14,300+176*Math.sin(Math.PI/6)+10);
+	
+	// Getting current hours , minutes and seconds from the system
+	var hours = new Date().getHours();
+    var minutes = new Date().getMinutes();
+    var seconds = new Date().getSeconds();
+
+    // Converting returned hours into desired format
+    var fullHours = hours % 12 + minutes / 60 + seconds / 3600 ;
+    
+    // Defining the rotating angles as function of current time
+    var hoursAngle = fullHours *( Math.PI / 6 );
+    var minutesAngle = minutes *( Math.PI / 30);
+    var secondsAngle = seconds *( Math.PI / 30);
+    
+    // Making the hour hand
+    context.moveTo(300,300);
+    // Setting rotation angle of hour hand
+    context.lineTo(300+300*0.25*Math.sin(hoursAngle),300-300*0.25*Math.cos(hoursAngle));
+    context.lineWidth = 4;
+    context.strokeStyle = "white";
+    context.stroke();
+
+    // Making the seconds hand
+    context.moveTo(300,300);
+    // Setting rotation angle of seconds hand
+    context.lineTo(300+300*0.6*Math.sin(secondsAngle),300-300*0.6*Math.cos(secondsAngle));
+    context.lineWidth = 1;
+    context.strokeStyle = "white";
+    context.stroke();
+
+    // Making the minutes hand
+    context.moveTo(300,300);
+    // Setting rotation angle of minutes hand
+    context.lineTo(300+0.45*300*Math.sin(minutesAngle),300-300*0.45*Math.cos(minutesAngle));
+    context.lineWidth = 3;
+    context.strokeStyle = "white";
+    context.stroke();
+	},1000);// setting the interval time as 1 second
+</script>
+</body>
+</html>
